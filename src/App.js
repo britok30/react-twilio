@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import SMSForm from './components/SMSForm';
 import axios from 'axios';
 
 class App extends Component {
@@ -27,17 +28,7 @@ class App extends Component {
     render() {
         return (
             <div className="App">
-                <form onSubmit={this.handleSubmit}>
-                    <label htmlFor="name"></label>
-                    <input
-                        type="text"
-                        id="name"
-                        value={this.state.name}
-                        onChange={this.handleChange}
-                    />
-                    <button type="submit">Submit</button>
-                </form>
-                <p>{this.state.greeting}</p>
+                <SMSForm />
             </div>
         );
     }

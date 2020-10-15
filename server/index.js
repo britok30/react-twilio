@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const pino = require('express-pino-logger')();
+require('dotenv').config();
 
 const client = require('twilio')(
     process.env.TWILIO_ACCOUNT_SID,
@@ -21,11 +22,19 @@ app.get('/api/greeting', (req, res) => {
 app.post('/api/messages', (req, res) => {
     res.header('Content-Type', 'application/json');
 
-    client.messages.create({
-        from: process.env.TWILIO_PHONE_NUMBER,
-        to: req.body.to,
-        body: req.body.body,
-    });
+    client.messages
+        .create({
+            from: process.env.TWILIO_PHONE_NUMBER,
+            to: req.body.to,
+            body: req.body.body,
+        })
+        .then(() => {
+            res.send(JSON.Stringify({ success: true }));
+        })
+        .catch((err) => {
+            console.log(err);
+            res.send(JSON.Stringify({ success: false }));
+        });
 });
 
 const PORT = 5000;
