@@ -11,7 +11,7 @@ body {
             rgba(0, 0, 0, 0.425),
             rgba(0, 0, 0, 0.603)
         ),
-        url(./images/alex-cagwin-aGnZf9RRTYg-unsplash.jpg) no-repeat center
+        url(./images/youssef-sarhan-tze1kKj7Lgg-unsplash.jpg) no-repeat center
             center/cover !important;
     height: 100vh;
 }
@@ -69,4 +69,9 @@ body {
     margin: auto !important;
     display: block !important;
     padding-top: 20px;
+}
+
+::placeholder {
+    color: #fff;
+    opacity: 0.4;
 }

@@ -69,7 +69,8 @@ class SMSForm extends Component {
                             id="to"
                             value={this.state.message.to}
                             onChange={this.onHandleChange}
-                            placeholder="(000)-000-0000"
+                            placeholder="000-000-0000"
+                            autoComplete="off"
                         />
                     </div>
                     <div>
@@ -82,6 +83,7 @@ class SMSForm extends Component {
                             id="body"
                             value={this.state.message.body}
                             onChange={this.onHandleChange}
+                            placeholder="Message"
                         />
                     </div>
                     <button
