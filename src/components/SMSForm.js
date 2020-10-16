@@ -1,71 +1,87 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import React, { Component } from 'react';
 
-const SMSForm = () => {
-    const [to, setTo] = useState('');
-    const [body, setBody] = useState('');
-    const [submitting, setSubmitting] = useState(false);
-    const [error, setError] = useState(false);
-
-    const handleToChange = (e) => {
-        setTo(e.target.value);
+class SMSForm extends Component {
+    state = {
+        message: {
+            to: '',
+            body: '',
+        },
+        submitting: false,
+        error: false,
     };
 
-    const handleBodyChange = (e) => {
-        setBody(e.target.value);
+    onHandleChange = (e) => {
+        const name = e.target.getAttribute('name');
+
+        this.setState({
+            message: { ...this.state.message, [name]: e.target.value },
+        });
     };
 
-    const handleSubmit = (e) => {
+    onSubmit = (e) => {
         e.preventDefault();
-        setSubmitting(true);
 
-        axios
-            .post('/user', {
-                to: to,
-                body: body,
-            })
-            .then(function (response) {
-                console.log(response);
-            })
-            .catch(function (error) {
-                console.log(error);
+        this.setState({ submitting: true });
+        fetch('/api/messages', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(this.state.message),
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                if (data.success) {
+                    this.setState({
+                        error: false,
+                        submitting: false,
+                        message: {
+                            to: '',
+                            body: '',
+                        },
+                    });
+                } else {
+                    this.setState({
+                        error: true,
+                        submitting: false,
+                    });
+                }
             });
     };
 
-    return (
-        <div className="outer-container">
-            <div className="inner-container">
-                <form onSubmit={handleSubmit}>
-                    <div className="to">
+    render() {
+        return (
+            <div>
+                <form
+                    onSubmit={this.onSubmit}
+                    className={this.state.error ? 'error sms-form' : 'sms-form'}
+                >
+                    <div>
+                        <label htmlFor="to">To:</label>
                         <input
-                            className="to-text"
                             type="tel"
                             name="to"
                             id="to"
-                            value={to}
-                            onChange={handleToChange}
+                            value={this.state.message.to}
+                            onChange={this.onHandleChange}
                         />
                     </div>
-                    <div className="body mt-4">
+                    <div>
+                        <label htmlFor="body">Body:</label>
                         <textarea
-                            className="body-text"
                             name="body"
                             id="body"
-                            value={body}
-                            onChange={handleBodyChange}
+                            value={this.state.message.body}
+                            onChange={this.onHandleChange}
                         />
                     </div>
-                    <button
-                        className="btn btn-outline-light send mt-4"
-                        type="submit"
-                        disabled={submitting}
-                    >
-                        Send Message
+                    <button type="submit" disabled={this.state.submitting}>
+                        Send message
                     </button>
                 </form>
             </div>
-        </div>
-    );
-};
+        );
+    }
+}
 
 export default SMSForm;

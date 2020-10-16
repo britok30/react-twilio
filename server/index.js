@@ -29,11 +29,11 @@ app.post('/api/messages', (req, res) => {
             body: req.body.body,
         })
         .then(() => {
-            res.send(JSON.Stringify({ success: true }));
+            res.send(JSON.stringify({ success: true }));
         })
         .catch((err) => {
             console.log(err);
-            res.send(JSON.Stringify({ success: false }));
+            res.send(JSON.stringify({ success: false }));
         });
 });
 
