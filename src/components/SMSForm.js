@@ -51,31 +51,44 @@ class SMSForm extends Component {
 
     render() {
         return (
-            <div>
+            <div className="inner-container">
                 <form
                     onSubmit={this.onSubmit}
                     className={this.state.error ? 'error sms-form' : 'sms-form'}
                 >
                     <div>
-                        <label htmlFor="to">To:</label>
+                        <label className="label" htmlFor="to">
+                            To:
+                        </label>
                         <input
+                            className="to-text"
                             type="tel"
+                            pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
                             name="to"
+                            required
                             id="to"
                             value={this.state.message.to}
                             onChange={this.onHandleChange}
+                            placeholder="(000)-000-0000"
                         />
                     </div>
                     <div>
-                        <label htmlFor="body">Body:</label>
+                        <label className="label" htmlFor="body">
+                            Body:
+                        </label>
                         <textarea
+                            className="body-text"
                             name="body"
                             id="body"
                             value={this.state.message.body}
                             onChange={this.onHandleChange}
                         />
                     </div>
-                    <button type="submit" disabled={this.state.submitting}>
+                    <button
+                        className="send btn btn-outline-light mt-4"
+                        type="submit"
+                        disabled={this.state.submitting}
+                    >
                         Send message
                     </button>
                 </form>
